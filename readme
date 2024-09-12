@@ -1,0 +1,17 @@
+Capacitive Sensor Readings: Two capacitive sensors (A0 for the left and A5 for the right) measure input, and their readings are processed for touch detection.
+
+Smoothing with Exponential Moving Average (EMA): The readings from both sensors are smoothed using an EMA algorithm with a configurable smoothing factor (smoothingFactor), ensuring stability in sensor values.
+
+Calibration: During an initial calibration phase, the system captures minimum and maximum values for each sensor over a set number of samples (calibrationSamples). This helps establish a baseline for accurate hand detection, dynamically setting sensor ranges based on real-world conditions.
+
+Mapping Sensor Values: After calibration, the sensor values are mapped between 0 and 3000 for easier hand detection, normalized against the baseline values determined during calibration.
+
+Sample Averaging: The system calculates an average value for both sensors over a sample size (sampleSize), helping to reduce noise and stabilize readings.
+
+Threshold Adjustment: The threshold for hand detection is dynamically set based on the first batch of samples, adding a margin (+80) to the average left sensor reading.
+
+Hand Detection Logic: When the average sensor reading exceeds the threshold, the system detects a hand presence and toggles the light on or off. If the hand is no longer detected, the system resets for future detection.
+
+Light Control: A light connected to pin 7 is toggled on and off when a hand is detected. The state of the light is tracked using lightState, ensuring proper toggling behavior.
+
+Efficient Sensor Reading: The readCapacitiveSensor() function efficiently handles the sensor readings by charging and discharging the sensor pins to avoid cross-talk and ensure accurate readings.
